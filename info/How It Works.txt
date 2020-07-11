@@ -1,0 +1,77 @@
+This is an overview of how this program works with its many files and parts:
+
+Programs i've fully wrote:
+
+1) start.bat
+
+The entry point of the program, this mini batch program will call PythonServer.bat, wait for it boot
+then launch chromes HTML render of game.html before pausing. At this point the program (in a cmd window) will wait for
+any user input, once it receives a keypress it will close both itself and pythonserver.bat's window, effectively
+terminating and ending the program.
+
+2) pythonServer.bat
+
+This file exists to implement a simple and secure HTTP server for chrome to retrieve local files from without worrying
+security and cross origin requests between local files. This is in a separate file from start.bat because pythonServer
+won't let commands execute after it until its terminated. Since I need to open chrome after the python server is created
+start.bat and pythonServer.bat need to be run in parallel. This file also checks your computer architecture to make
+sure your using the right version of python.
+
+3) game.html
+
+Webpage framework and include statements that import all Javascript libraries i'm going to use. After loading
+libraries, loads game.js, the main javascript file. 
+
+4) game.css
+
+stylistic changes for game.html's elements to disable scrolling and make sure the canvas fills the page
+
+5) game.js
+
+The main Javascript file, this contains everything the game will do. It calls functions from all libraries as well
+as loads texture and model resources. The beginning provides Classes for objects using the ECMAScript 5 Standards
+new Java like syntax for creating classes.
+
+
+Stuff i haven't wrote / only modified a bit: (Everything in the "lib"(library) folder)
+all original authors attributed on top of their page
+
+1) three.min.js - by Mr.Doob
+
+JS wrapper for WebGL meaning you don't need to learn opengl (or go through the process of writing your own render engine)
+for 3D graphics on a webpage canvas. 
+
+2) PonterLockConrols.js - by Mr.Doob
+
+implementation of Chrome's Pointer Lock API with ThreeJS in order to create first person controls
+
+3) FirstPersonControls.js - by videlais
+
+uses PointerLockControls.js and expands on it with key input as well as mouse rotation handling using some complicated math.
+
+4) MTLLoader.js & OBJLoader.js - by Mr.Doob
+
+Used to load .obj (3d object geometry data files) and .mtl (texture, lighting, animation, etc. data file) files.
+Used in my function "loadOBJMTL" in game.js.
+
+start.bat
+|
+|_ pythonServer.bat 
+|  |
+|  |_ python32/python.exe
+|
+|_ chrome.exe
+   |
+   |_game.html
+     |
+     |_ game.js
+     |
+     |_ game.css
+     |
+     |_ lib/*
+     |
+     |_ res/*
+
+
+
+

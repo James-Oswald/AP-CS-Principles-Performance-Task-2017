@@ -1,0 +1,57 @@
+2a) This program is written primarily in Javascript with the help of some batch scripts as well as python
+ for the local web server. This program is a piece of art that represents randomness and chaos. It creates
+ a 3d scene and allows for projectiles to be shot through space, playing random piano chords as they travel,
+ creating an eerie song. The program has many variables which are randomly chosen each run creating a scene
+ that is unique every time, the song played will never be quite the same. The video demonstrates your player,
+ a small camera barely above the ground shooting off a few projectiles and hearing some notes before slowly
+ gliding to the main scene. Once there he explores the cabin, and the musical skulls before looking up at
+ the patterns the skulls create with their projectiles.  
+
+2b) I handled this program as it came at me in an iterative fashion, making adjustment to my end goal when necessary.
+ I originally had planned to do a 3d game, many of my classes can be seen resembling frameworks for what could have
+ been player vs skulls. The hardest part in my development process was getting the projectiles to fire correctly,
+ it took knowledge of linear algebra and computer science combine and forced me to carefully examine the reference
+ independently. The second key point in my design process was changing my game from an FPS to an abstract work of art
+ and adding in the sounds. I decided to change from my original plan after a collaborative partner
+ saw my code and determined it would be best to take it in a more simple manageable direction. 
+
+2c) selected code segment:
+this.primary = function()
+		{
+			if(this.intClock.getElapsedTime() > delay)
+			{
+				this.intClock.stop();
+				var projg = this.pobj.clone(), vel = new THREE.Vector3();
+				projg.position.x = this.owner.obj.position.x;
+				projg.position.y = this.owner.obj.position.y;
+				projg.position.z = this.owner.obj.position.z;
+				vel.x = this.owner.obj.rotation.x * speed;
+				vel.y = this.owner.obj.rotation.y * speed;
+				vel.z = this.owner.obj.rotation.z * speed;
+				var proj = new Entity(projg, vel);
+				sounds[rand(0, sounds.length - 1)].play();
+				this.intClock.start();
+			}
+		}
+
+2d) selected segment:
+class Entity
+{
+	constructor(obj, vel)
+	{
+		this.obj = (obj != null) ? obj : defaultObject;
+		this.vel = vel != null ? vel : new THREE.Vector3(0, 0, 0);
+		this.subUpdate = function(){};
+		scene.add(this.obj);
+		this.update = function()
+		{
+			this.subUpdate(this);
+			var vel = this.vel;
+			var obj = this.obj;
+			obj.position.x += vel.x * delta;
+			obj.position.y += vel.y * delta;
+			obj.position.z += vel.z * delta;
+		}
+		entities.push(this);
+	}
+}
